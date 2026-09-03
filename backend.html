@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Noon Backend Status</title>
+  <style>
+    :root{--bg:#07111f;--panel:#0d1b2b;--gold:#c8a35a;--text:#f5f1e8;--muted:#9fb0c2;--ok:#7fd6a7}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:linear-gradient(135deg,#06101c,#0a1726 55%,#111827);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px}.wrap{width:min(920px,100%)}.brand{display:flex;align-items:center;gap:14px;margin-bottom:22px}.mark{font-size:42px;color:var(--gold)}h1{margin:0;font-size:28px}.sub{color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.card{background:rgba(13,27,43,.92);border:1px solid rgba(200,163,90,.25);border-radius:16px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.25)}.label{font-size:12px;letter-spacing:.12em;color:var(--gold);text-transform:uppercase}.value{font-size:22px;margin:10px 0}.ok{color:var(--ok)}.muted{color:var(--muted);font-size:14px;line-height:1.5}.footer{margin-top:18px;color:var(--muted);font-size:13px}.pill{display:inline-block;border:1px solid rgba(127,214,167,.4);color:var(--ok);border-radius:999px;padding:6px 10px;font-size:12px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="brand"><div class="mark">ن</div><div><h1>Noon Backend Status</h1><div class="sub">Operational overview for the Noon Investment Company platform.</div></div></div>
+    <div class="grid">
+      <section class="card"><div class="label">API Health</div><div id="api" class="value">Checking…</div><div class="muted">Public health endpoint for the Vercel serverless backend.</div></section>
+      <section class="card"><div class="label">Database</div><div id="db" class="value">Checking…</div><div class="muted">Neon PostgreSQL connection status.</div></section>
+      <section class="card"><div class="label">CRM Intake</div><div class="value"><span class="pill">Protected + Active</span></div><div class="muted">Website forms submit to <code>/api/leads</code>. Lead records are not exposed publicly.</div></section>
+    </div>
+    <div class="footer">For security, the CRM lead list remains protected and requires an admin API key.</div>
+  </main>
+  <script>
+    fetch('/api/health',{cache:'no-store'})
+      .then(r=>r.json())
+      .then(d=>{
+        document.getElementById('api').textContent=d.ok?'Operational':'Issue detected';
+        document.getElementById('api').className='value '+(d.ok?'ok':'');
+        document.getElementById('db').textContent=d.databaseConfigured?'Connected':'Not configured';
+        document.getElementById('db').className='value '+(d.databaseConfigured?'ok':'');
+      })
+      .catch(()=>{
+        document.getElementById('api').textContent='Unavailable';
+        document.getElementById('db').textContent='Unknown';
+      });
+  </script>
+</body>
+</html>
