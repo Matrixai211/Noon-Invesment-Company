@@ -1,0 +1,10 @@
+{
+  "name": "noon-investment-company-backend",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "zod": "^3.23.8"
+  }
+}
